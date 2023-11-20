@@ -14,6 +14,8 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation } from 'react-router-dom';
 import myImage from '../studends.png'; // Import the PNG file
+import { useRecoilValue } from "recoil";
+import { logedInUser } from "../recoil_state";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
 
@@ -37,6 +39,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 function MySidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
+  const user = useRecoilValue(logedInUser);
 
   const location = useLocation();
   const { pathname } = location;
@@ -98,7 +101,7 @@ function MySidebar() {
                 alt="profile-user"
                 width="100px"
                 height="100px"
-                src={myImage} //https://i.pinimg.com/originals/ea/0c/65/ea0c65df3d03e9121144b03d086af3b4.png
+                src={myImage}
                 style={{ cursor: "pointer", borderRadius: "50%" }}
               />
             </Box>
@@ -109,10 +112,10 @@ function MySidebar() {
                 fontWeight="bold"
                 sx={{ m: "10px 0 0 0" }}
               >
-                AKR
+                {user.email}
               </Typography>
               <Typography variant="h5" >
-                VP Fancy Admin
+                {user.user}
               </Typography>
             </Box>
           </Box>
@@ -137,36 +140,39 @@ function MySidebar() {
             Data
           </Typography>
 
-          <Box sx={{
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.50)',
-                transition: 'box-shadow 0.3s ease-in-out',
-                borderRadius :"40px",
-              }}>
-          <Item
+          {/* User can only see Add Assignee, New Subjects, Create Ticket Icons */}
+          {user.access=="admin" ?
+           <Box sx={{
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.50)',
+            transition: 'box-shadow 0.3s ease-in-out',
+            borderRadius :"40px",
+          }}>
+            <Item
             title="Create Ticket"
             to="/admin/CreateTicket"
             icon={<AddBoxOutlinedIcon sx={{ color:"#1976d2"}} />}
             selected={selected}
             setSelected={setSelected}
-           
-          />
-          </Box>
-
-
+            />
+          </Box>:""  }
+         {user.access !=="admin"?"":
+         <Box>
           <Item
-            title="Add Assignee"
-            to="/admin/addAssignee"
-            icon={<PeopleOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+          title="Add Assignee"
+          to="/admin/addAssignee"
+          icon={<PeopleOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
           />
           <Item
-            title="New Subjects"
-            to="/admin/newsubjects"
-            icon={<SubjectOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+          title="New Subjects"
+          to="/admin/newsubjects"
+          icon={<SubjectOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
           />
+        </Box>}
+          
           <Item
             title="Finished Subjects"
             to="/finishedSubjects"

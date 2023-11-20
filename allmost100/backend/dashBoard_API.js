@@ -216,7 +216,7 @@ async function getSingleTicket(req, res, next){
 
   console.log(subjectObject)
 
-  res.status(200).json({ role: "admin", subjectObject });
+  res.status(200).json({ role: "admin/User", subjectObject });
 }
 
 module.exports = {

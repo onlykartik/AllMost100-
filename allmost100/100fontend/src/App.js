@@ -9,10 +9,19 @@ import "./index.css";
 import TicketDashboard from "./Scences/user_view";
 import CreateTicket from "./Scences/admin_view/CreateTicket";
 import Ticket from "./Scences/user_view/Ticket";
+import { Box } from "@mui/material";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 function App() {
   return (
-    <div className="app">
+    <Box className="app">
+      <RecoilRoot>
       <MySidebar />
       <main className="content">
         <Routes>
@@ -26,7 +35,8 @@ function App() {
           <Route path="/ticket/dashboard/ticket/:id" element={<Ticket/> }></Route>
         </Routes>
       </main>
-    </div>
+      </RecoilRoot>
+    </Box>
   );
 }
 

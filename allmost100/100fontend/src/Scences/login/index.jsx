@@ -1,14 +1,17 @@
 import { Box, Button, Input, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { logedInUser } from "../../recoil_state";
 
 
 const formStyle = {
   alignItems: "center",
 };
 
-
 function Login() {
     const navigate = useNavigate();
+    const setUser = useSetRecoilState(logedInUser)
+
   return (
     <Box>
       <form
@@ -32,12 +35,23 @@ function Login() {
             if(data.role ==="Admin"){
                 console.log(data.token);
                 localStorage.setItem('jwtToken', data.token);
+                setUser({
+                  user : "VP Fancy Admin",
+                  access:"admin",
+                  email,
+                })
                 navigate("/admin/newsubjects")
 
 
             }else if(data.role ==="User(student/assigne)"){
                 console.log(data.token);
                 localStorage.setItem('jwtToken', data.token);
+                setUser({
+                  user : "Trax User",
+                  access :"user",
+                  email,
+                })
+                
                 navigate("/ticket/dashboard")
             }
           })
