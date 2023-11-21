@@ -47,7 +47,7 @@ function Login() {
                 console.log(data.token);
                 localStorage.setItem('jwtToken', data.token);
                 setUser({
-                  user : "Trax User",
+                  user : "T-REX User",
                   access :"user",
                   email,
                 })

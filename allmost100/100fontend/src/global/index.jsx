@@ -13,10 +13,10 @@ import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation } from 'react-router-dom';
-import myImage from '../studends.png'; // Import the PNG file
+import dinoImage from '../dinosaur.png'
 import { useRecoilValue } from "recoil";
 import { logedInUser } from "../recoil_state";
-
+import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
 const Item = ({ title, to, icon, selected, setSelected }) => {
 
 
@@ -101,21 +101,22 @@ function MySidebar() {
                 alt="profile-user"
                 width="100px"
                 height="100px"
-                src={myImage}
+                src={dinoImage}
                 style={{ cursor: "pointer", borderRadius: "50%" }}
               />
             </Box>
             <Box textAlign="center">
               <Typography
-                variant="h2"
+                variant="h3"
              
                 fontWeight="bold"
                 sx={{ m: "10px 0 0 0" }}
               >
-                {user.email}
+                {user.email.split("@")[0].concat("@")}
               </Typography>
               <Typography variant="h5" >
                 {user.user}
+                <VerifiedRoundedIcon  sx={{color:"blue"}}/>
               </Typography>
             </Box>
           </Box>
