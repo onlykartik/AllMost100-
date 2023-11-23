@@ -1,6 +1,7 @@
 const dashboard = require("./dashBoard_API");
 const formApi = require("./formApi");
 const middlewares = require("./middlewares");
+const comments = require("./comments");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -27,6 +28,9 @@ app.get("/formDashboard", middlewares.adminAuthenticateJwt, formApi.getAllformDa
 app.get("/admin/assigns", middlewares.adminAuthenticateJwt, dashboard.getAllAssignees )
 app.post("/admin/createTicket",middlewares.adminAuthenticateJwt, dashboard.createTicket )
 app.get("/admin/getTicket",middlewares.authenticateJwt, dashboard.getSingleTicket )
+
+app.post("/user/addComment", middlewares.authenticateJwt,comments.addComment)
+app.get("/user/getComments", middlewares.authenticateJwt,comments.getComments)
 
 
 app.listen(PORT, () => {

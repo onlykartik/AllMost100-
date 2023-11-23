@@ -3,12 +3,12 @@ import Face3Icon from '@mui/icons-material/Face3';
 import Face2Icon from '@mui/icons-material/Face2';
 import TimeIcon from '@mui/icons-material/AccessTimeSharp';
 import TitleIcon from '@mui/icons-material/Title';
+import ListItem from '@mui/material/ListItem';
 import { useParams } from 'react-router-dom';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { useRecoilValue } from "recoil";
 import { logedInUser } from '../../recoil_state';
-const { Box, Typography, Card, CardContent, Stack, TextField, Button } = require("@mui/material");
-const { default: Header } = require("../../global/Header");
+const { Box, Typography, Card, Stack, Button, List, Divider, ListItemText } = require("@mui/material");
 const { useEffect, useState } = require("react");
 
 const discriptionCss ={
@@ -53,6 +53,8 @@ function Ticket(){
      const [ticket, setTicket] = useState([]);
      const [commented , setCommented] = useState(false);
      const [message , setMessage] = useState("");
+     const [posts, setPosts ] = useState([]);
+
      const {user,access,email} = useRecoilValue(logedInUser);
      console.log(user,access,email+" user,access,email")
 
@@ -65,12 +67,29 @@ function Ticket(){
             "ticketid" : id
         }
     }).then((res)=> res.json()).then((data)=>{
-        console.log(data)
         setTicket(data)
     }).catch(()=>{
         setTicket([]);
     })
-    },[id])
+    },[id]);
+
+    useEffect(()=>{
+        fetch(`http://localhost:5000/user/getComments?${id}`,{
+        method:"Get",
+        headers:{
+            "authorization" : localStorage.getItem("jwtToken"),
+            "subjectid" : id
+        }
+    }).then((res)=> res.json()).then((data)=>{
+        console.log(data)
+        setPosts(data.comments)
+    }).catch(()=>{
+        setPosts([]);
+    })
+    },[])
+
+
+
 
     const isCurrentUserAdmin = (ticket?.subjectObject?.[0]?.admin)?.split(",").includes(email) ;
     const isCurrentUserStudent = ticket?.subjectObject?.[0]?.student[0].Email  === email;
@@ -81,13 +100,13 @@ function Ticket(){
         let postedBy = "";
         if(isCurrentUserAdmin){
             console.log("PostedBy "+"admin");
-            postedBy = "admin";
+            postedBy = "Admin";
         }else if(isCurrentUserAssignee){
             console.log("PostedBy "+"assignee");
-            postedBy = "assignee";
+            postedBy = "Assignee";
         }else if(isCurrentUserStudent){
             console.log("PostedBy "+"student");
-            postedBy = "student";
+            postedBy = "Student";
         }
 
         const commentObject = {
@@ -98,6 +117,32 @@ function Ticket(){
             createdAt : new Date(),
         }
         console.log(commentObject)
+
+        fetch('http://localhost:5000/user/addComment',{
+            method:"Post",
+            headers:{
+                "Content-Type": "application/json",
+                authorization: localStorage.getItem("jwtToken"),
+            },
+            body:JSON.stringify(commentObject)
+        }).then(res=>res.json()).then(data =>{
+            console.log(data)
+        }).then(()=>{
+            fetch(`http://localhost:5000/user/getComments?${id}`,{
+                method:"Get",
+                headers:{
+                    "authorization" : localStorage.getItem("jwtToken"),
+                    "subjectid" : id
+                }
+            }).then((res)=> res.json()).then((data)=>{
+                console.log(data)
+                setPosts(data.comments)
+            }).catch(()=>{
+                setPosts([]);
+            })
+        })
+        
+
     }
 
     return(
@@ -128,10 +173,35 @@ function Ticket(){
                         <QuestionAnswerIcon/> <Typography fontSize={"smaller"} fontWeight={"bold"}>Comments:</Typography> 
                     </Stack>
 
+                    {/* All comments */}
                     <Box margin={"10px"}>
+                    {
+                        posts.map(post=>{
+                            return (
+                                <List
+                                sx={{
+                                    width: '90%',
+                                    bgcolor: 'background.paper',
+                                }}>
+                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
+                                        <Typography>{post.PostedBy+": "+ post.PostedByEmail}</Typography>
+                                        <Typography fontSize={"13px"} color={"#4f4f4f"}>{ new Date(post.CreatedAt).toLocaleString()}</Typography>
+                                    </Box>
+                                    <ListItem>
+                                    <Typography component={"p"} fontSize={"13px"} color={"#4f4f4f"}>{post.CommentText}</Typography>                                       
+                                    </ListItem>
+                                        <Divider variant="inset" component="li" />
+                                </List>
+                            )
+                        })
+                    }
+
+
+
+
                     {isCurrentUserStudent &&
                     <>
-                    <Stack width={"95%"} paddingBottom={"10px"} direction={"row"} textAlign={"center"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Stack width={"95%"} paddingTop={"20px"} paddingBottom={"10px"} direction={"row"} textAlign={"center"} justifyContent={"space-between"} alignItems={"center"}>
                         
                     <Stack direction={"row"} textAlign={"center"} alignItems={"center"}>
                        <Face2Icon fontSize='medium'  />
@@ -162,10 +232,19 @@ function Ticket(){
                     
                     {isCurrentUserAssignee &&
                     <>
+                    <Stack width={"95%"} paddingBottom={"10px"} direction={"row"} textAlign={"center"} justifyContent={"space-between"} alignItems={"center"}>
+
+                    <Stack direction={"row"} textAlign={"center"} alignItems={"center"}>
                     <Face3Icon/>
                     <Typography> Assignee {ticket?.subjectObject?.[0]?.assignee[0].Email}</Typography> 
-                    <TimeIcon/>
-                    
+                    </Stack>
+
+                    <Stack direction={"row"} textAlign={"center"} alignItems={"center"}>
+                       <TimeIcon/> 
+                       <label className='currentTime' > {new Date().toLocaleString()}</label>
+                    </Stack>
+
+                    </Stack>                    
                     <textarea className='commute' style={{height :"140px", width:"95%", border:"1.5px solid #979797",marginBottom:"10px" }} 
                     onBlur={(e)=>{console.log(e.target.style.border = "1px solid #979797")}} 
                     onFocus={(e)=>{ console.log(e.target.style.border = 0) }} 
@@ -185,10 +264,16 @@ ${ticket?.subjectObject?.[0]?.student[0].Name  +" & Team100%"}.`:message} />
                     
                     {isCurrentUserAdmin &&
                     <>
-                    
+                    <Stack width={"95%"} paddingTop={"20px"} paddingBottom={"10px"} direction={"row"} textAlign={"center"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Stack direction={"row"} textAlign={"center"} alignItems={"center"}>
                     <Typography> Admin {(ticket?.subjectObject?.[0]?.admin)?.split(",")[0]}</Typography>
-                    <TimeIcon/>
+                    </Stack>
 
+                    <Stack direction={"row"} textAlign={"center"} alignItems={"center"}>
+                       <TimeIcon/> 
+                       <label className='currentTime' > {new Date().toLocaleString()}</label>
+                    </Stack>   
+                    </Stack>
                     <textarea className='commute' style={{height :"140px", width:"95%", border:"1.5px solid #979797",marginBottom:"10px" }} 
                     onBlur={(e)=>{console.log(e.target.style.border = "1px solid #979797")}} 
                     onFocus={(e)=>{ console.log(e.target.style.border = 0) }} 
