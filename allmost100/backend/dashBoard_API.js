@@ -20,6 +20,8 @@ async function login(req, res, next) {
   const stu_asg = await query(`select * from usercredentials`);
   const userAdmin = await query(`select * from admincredentials`);
 
+  console.log(stu_asg);
+
   const isUserStu_Asg = stu_asg.find((user) => {
     return user.USER === username && user.PASSWORD === passcode;
   });
@@ -61,10 +63,10 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
     return ccList.find((cc) => cc === username);
   });
 
-
+  console.log(isUserStudent +" is user student*** "+ username);
   if (isUserStudent) {
     const stuSubjects = await query("select * from subject where studentId=?", [isUserStudent.Id,]);
-
+    console.log("list TICKETs for student "); console.log(stuSubjects)
     const subjects =
     await Promise.all(
     stuSubjects.map(async subject =>{
@@ -149,6 +151,7 @@ async function createTicket(req, res, next){
 
  const studentIsExist = await query(`select * from student where Email ='${ticketDetails.student.email}'`)
  if(studentIsExist.length <=0){
+  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **NOT FOUND** ")
   const createStudent =  await query(`INSERT INTO student (Name,Email,university) values('${ticketDetails.student.fullName}', '${ticketDetails.student.email}', '${ticketDetails.student.university}')`);
   const studentId = createStudent.insertId;
   const assigneId = ticketDetails.assignee.assigneId;
@@ -168,7 +171,7 @@ await query(`INSERT INTO subject (SubjectTitle, SubjectDescription, DeadlineDate
               
   res.status(200).json({message:"working on it ß", createSubject})
  }else if(studentIsExist.length >0){
-
+  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **FOUND** ")
   const studentId = studentIsExist[0].Id;
   const assigneId = ticketDetails.assignee.assigneId;
   const dueDates = {

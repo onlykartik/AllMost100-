@@ -10,6 +10,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Header from "../../global/Header";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { newStujectDashboard } from "../../recoil_state";
 
 const columns = [
   { field: "firstName", headerName: "First name" , hide :true},
@@ -67,7 +69,9 @@ function adminIcons(params){
 }
 
 function FormDashboard() {
-  const [dashboard, setDashboard] = useState([]);
+//  const [dashboard, setDashboard] = useState([]);
+
+  const [dashboard,setDashboard] = useRecoilState(newStujectDashboard);
  
   useEffect(() => {
     fetch("http://localhost:5000/formDashboard", {
@@ -80,6 +84,7 @@ function FormDashboard() {
       .then((res) => res.json())
       .then((data) => {
         setDashboard(data);
+        console.log(data)
       })
       .catch((data) => {
         setDashboard([]);
@@ -98,6 +103,7 @@ function FormDashboard() {
 function DraggableDialog({ row }) {
   const [open, setOpen] = React.useState(false);
   const [selectedAssigne, setSeletedAssigne] = useState("")
+  const setDashboardState =  useSetRecoilState(newStujectDashboard)
 
 
   const handleClickOpen = () => {
@@ -143,6 +149,11 @@ function DraggableDialog({ row }) {
         body:JSON.stringify(ticketCreationDetails)
      }).then(res => res.json()).then(data=>{
         console.log(data);
+
+        // ReSet Newsubject Dashboard
+        setDashboardState((oldDashboardState)=>{
+          return oldDashboardState.filter((newSubs=> newSubs.id != row.id? true:false));
+        })
      })
   }
 

@@ -9,6 +9,12 @@ const logedInUser = atom({
     }
   });
 
+const newStujectDashboard = atom({
+  key:"newStujectDashboard",
+  default:[]
+})
+
   export {
-    logedInUser
+    logedInUser,
+    newStujectDashboard
   }

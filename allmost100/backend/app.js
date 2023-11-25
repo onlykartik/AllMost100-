@@ -25,9 +25,9 @@ app.get(
 );
 app.post("/filledForm", formApi.addFormData);
 app.get("/formDashboard", middlewares.adminAuthenticateJwt, formApi.getAllformData);
-app.get("/admin/assigns", middlewares.adminAuthenticateJwt, dashboard.getAllAssignees )
-app.post("/admin/createTicket",middlewares.adminAuthenticateJwt, dashboard.createTicket )
-app.get("/admin/getTicket",middlewares.authenticateJwt, dashboard.getSingleTicket )
+app.get("/admin/assigns", middlewares.adminAuthenticateJwt, dashboard.getAllAssignees);
+app.post("/admin/createTicket",middlewares.adminAuthenticateJwt, dashboard.createTicket);
+app.get("/admin/getTicket",middlewares.authenticateJwt, dashboard.getSingleTicket);
 
 app.post("/user/addComment", middlewares.authenticateJwt,comments.addComment)
 app.get("/user/getComments", middlewares.authenticateJwt,comments.getComments)
