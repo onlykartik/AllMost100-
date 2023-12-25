@@ -23,15 +23,21 @@ function Login() {
 
 
           fetch("http://localhost:5000/login",{
+            mode: 'cors',
             method : "POST",
             headers :{
                 "Content-Type": "application/json",
-                "username" : email,
-                "passcode" : password
-            },
-         //   body: JSON.stringify()  
-          }).then(res => res.json()).then(data =>{
-           
+            },body: JSON.stringify( {
+              "username" : email,
+              "passcode" : password
+            }),
+          }) .then((res) => {
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    return res.json();
+  }).then(data =>{
+           console.log("errror")
             if(data.role ==="Admin"){
                 console.log(data.token);
                 localStorage.setItem('jwtToken', data.token);
@@ -54,6 +60,8 @@ function Login() {
                 
                 navigate("/ticket/dashboard")
             }
+          }).catch(e=>{
+            console.log( ' This is the network error ', e)
           })
 
 

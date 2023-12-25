@@ -14,11 +14,16 @@ function handleRoot(req, res) {
 }
 
 async function login(req, res, next) {
-  const { username, passcode } = req.headers;
+  res.set('Access-Control-Allow-Origin', '*');
+
+  console.log("in /lpg")
+  const { username, passcode } = req.body;
 
   // verify password of user(assigne,student)/admin
   const stu_asg = await query(`select * from usercredentials`);
   const userAdmin = await query(`select * from admincredentials`);
+
+  console.log(stu_asg)
 
   console.log(stu_asg);
 

@@ -25,9 +25,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 
     fetch("http://localhost:5000/filledForm",
     {
+      mode: 'cors',
         method :"POST",
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(formValues)  
     }).then(res => res.json()).then(data =>{

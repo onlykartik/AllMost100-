@@ -2,7 +2,9 @@
   "name": "100fontend",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:5000/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
@@ -48,5 +50,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   }
 }

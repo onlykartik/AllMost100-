@@ -7,14 +7,15 @@ const secret = process.env.JWT_SECRET_KEY;
 
 async function addFormData(req, res, next) {
   const formFields = req.body;
-  // The database is expecting a date in the correct format, typically in 'YYYY-MM-DD' (e.g., '2023-10-18') for MySQL.
-  const inputDate = formFields["dueDates1"];
-  const parts = inputDate.split("/");
-  formFields["dueDates1"] = `${parts[2]}-${parts[0]}-${parts[1]}`;
+  const ref1 = formFields.reference.split(',')[0].concat("@gmail.com");
+  const ref2 = formFields.reference.split(',')[1].concat("@gmail.com");
+  formFields.reference = ref1 +',' + ref2;
+
+  console.log(ref1 +" "+ ref2);
 
 
   const addedFormData = await query(
-    "INSERT INTO new_subjects (firstName, lastName, email, contact, title, description, dueDates1) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO new_subjects (firstName, lastName, email, contact, title, description, dueDates1,university,referedName) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?)",
     [
       formFields["firstName"],
       formFields["lastName"],
@@ -23,6 +24,9 @@ async function addFormData(req, res, next) {
       formFields["title"],
       formFields["description"],
       formFields["dueDates1"],
+      formFields["university"],
+      formFields["reference"],
+      
     ]
   );
 

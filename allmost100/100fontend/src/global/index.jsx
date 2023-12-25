@@ -142,7 +142,7 @@ function MySidebar() {
           </Typography>
 
           {/* User can only see Add Assignee, New Subjects, Create Ticket Icons */}
-          {user.access=="admin" ?
+          {user.access==="admin" ?
            <Box sx={{
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.50)',
             transition: 'box-shadow 0.3s ease-in-out',

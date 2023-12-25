@@ -4,19 +4,35 @@ const middlewares = require("./middlewares");
 const comments = require("./comments");
 const express = require("express");
 const app = express();
-const cors = require("cors");
+
+const cors = require('cors');
+app.use(cors());
+
 const bodyParser = require("body-parser");
-const morgan = require("morgan");
 
 
 let PORT = process.env.PORT || 5000;
-app.use(bodyParser.json());
-app.use(cors());
 
-app.get("/", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "/index.html"));
-  res.status(200).json({ message: "comming soon" });
-});
+
+// app.use(cors({
+//   origin: "*",
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+
+// }));
+
+
+// app.options('*', cors({
+//   origin: "*",
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+
+// }));
+
+app.use(bodyParser.json());
+
 app.post("/login", dashboard.login);
 app.get(
   "/dashboard",
@@ -33,7 +49,7 @@ app.post("/user/addComment", middlewares.authenticateJwt,comments.addComment)
 app.get("/user/getComments", middlewares.authenticateJwt,comments.getComments)
 
 
-app.listen(PORT, () => {
+app.listen(PORT,'localhost', () => {
   console.log(
     "Crops enabled services: That  means anybody can call your API servics at",
     PORT

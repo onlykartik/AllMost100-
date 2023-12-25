@@ -75,6 +75,7 @@ function FormDashboard() {
  
   useEffect(() => {
     fetch("http://localhost:5000/formDashboard", {
+      mode: 'cors',
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,9 @@ function FormDashboard() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setDashboard(data);
+        const rowsWithId = data.map((row, index) => ({ ...row, id: index + 1 }));
+
+        setDashboard(rowsWithId);
         console.log(data)
       })
       .catch((data) => {
