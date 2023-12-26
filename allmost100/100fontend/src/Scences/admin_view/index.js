@@ -144,6 +144,7 @@ function DraggableDialog({ row }) {
      console.log(ticketCreationDetails);
 
      fetch("http://localhost:5000/admin/createTicket",{
+      mode :'cors',
         method :"POST",
         headers:{
             "Content-Type": "application/json",
@@ -216,6 +217,7 @@ function BasicSelect({selectedAssigne,setSeletedAssigne}) {
 //    const [selectedAssigne, setSeletedAssigne] = useState("")
     useEffect(() => {
       fetch("http://localhost:5000/admin/assigns", {
+        mode :'cors',
         method: "GET",
         headers: {
           "Content-Type": "application/json",

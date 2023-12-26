@@ -10,6 +10,7 @@ function TicketDashboard(){
 
     useEffect(()=>{
         fetch("http://localhost:5000/dashboard",{
+            mode :'cors',
             method :"Get",
             headers :{
                 "Content-Type": "application/json",

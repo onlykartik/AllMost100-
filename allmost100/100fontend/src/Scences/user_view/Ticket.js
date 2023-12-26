@@ -60,6 +60,7 @@ function Ticket(){
 
     useEffect(()=>{
         fetch(`http://localhost:5000/admin/getTicket?${id}`,{
+            mode :'cors',
         method:"Get",
         headers:{
             "Content-Type": "application/json",
@@ -75,6 +76,7 @@ function Ticket(){
 
     useEffect(()=>{
         fetch(`http://localhost:5000/user/getComments?${id}`,{
+            mode :'cors',
         method:"Get",
         headers:{
             "authorization" : localStorage.getItem("jwtToken"),
@@ -119,6 +121,7 @@ function Ticket(){
         console.log(commentObject)
 
         fetch('http://localhost:5000/user/addComment',{
+            mode :'cors',
             method:"Post",
             headers:{
                 "Content-Type": "application/json",
@@ -129,6 +132,7 @@ function Ticket(){
             console.log(data)
         }).then(()=>{
             fetch(`http://localhost:5000/user/getComments?${id}`,{
+                mode :'cors',
                 method:"Get",
                 headers:{
                     "authorization" : localStorage.getItem("jwtToken"),
@@ -177,6 +181,7 @@ function Ticket(){
                     <Box margin={"10px"}>
                     {
                         posts.map(post=>{
+                            console.log(post.CommentText);
                             return (
                                 <List
                                 sx={{
@@ -188,7 +193,7 @@ function Ticket(){
                                         <Typography fontSize={"13px"} color={"#4f4f4f"}>{ new Date(post.CreatedAt).toLocaleString()}</Typography>
                                     </Box>
                                     <ListItem>
-                                    <Typography component={"p"} fontSize={"13px"} color={"#4f4f4f"}>{post.CommentText}</Typography>                                       
+                                    <Typography component={"p"} fontSize={"13px"} sx={{whiteSpace: "pre-wrap"}} color={"#4f4f4f"}>{post.CommentText}</Typography>                                       
                                     </ListItem>
                                         <Divider variant="inset" component="li" />
                                 </List>

@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET_KEY;
 
 async function addComment(req, res, next){
+
     const { username, passcode } = req.user;
 
     const  {commentedText,postedBy,postedEmail,subjectId,createdAt} = req.body
@@ -27,6 +28,7 @@ async function addComment(req, res, next){
 
 
 async function getComments(req, res, next){
+
     const {authorization,subjectid} =  req.headers;
     console.log(authorization+" subject id "+ Number.parseInt (subjectid))
     const allComments = await query(`select * from comments where SubjectId =${subjectid}`);

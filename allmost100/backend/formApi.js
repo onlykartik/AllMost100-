@@ -6,6 +6,7 @@ const secret = process.env.JWT_SECRET_KEY;
 
 
 async function addFormData(req, res, next) {
+
   const formFields = req.body;
   const ref1 = formFields.reference.split(',')[0].concat("@gmail.com");
   const ref2 = formFields.reference.split(',')[1].concat("@gmail.com");
@@ -36,6 +37,7 @@ async function addFormData(req, res, next) {
 
 
 async function getAllformData(req, res, next) {
+
   const username = req.user.username;
   const passcode = req.user.passcode;
  

@@ -9,23 +9,20 @@ const secret = process.env.JWT_SECRET_KEY;
 
 
 function handleRoot(req, res) {
+
   res.sendFile(path.join(__dirname, "/index.html"));
   res.status(200).json({ message: "comming soon" });
 }
 
 async function login(req, res, next) {
-  res.set('Access-Control-Allow-Origin', '*');
 
-  console.log("in /lpg")
   const { username, passcode } = req.body;
 
   // verify password of user(assigne,student)/admin
   const stu_asg = await query(`select * from usercredentials`);
   const userAdmin = await query(`select * from admincredentials`);
 
-  console.log(stu_asg)
 
-  console.log(stu_asg);
 
   const isUserStu_Asg = stu_asg.find((user) => {
     return user.USER === username && user.PASSWORD === passcode;
@@ -51,6 +48,7 @@ async function login(req, res, next) {
 
 
 async function listSubjectsForReporterAssigneCCs(req, res, next) {
+
   const { username, passcode } = req.user;
 
   // fetch all student/assignee and decide who is the username
@@ -71,7 +69,6 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
   console.log(isUserStudent +" is user student*** "+ username);
   if (isUserStudent) {
     const stuSubjects = await query("select * from subject where studentId=?", [isUserStudent.Id,]);
-    console.log("list TICKETs for student "); console.log(stuSubjects)
     const subjects =
     await Promise.all(
     stuSubjects.map(async subject =>{
@@ -141,8 +138,8 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
 
 
 async function getAllAssignees(req, res, next){
+
   const assignees = await query("select * from assignee");
-  console.log(assignees);
   if(assignees){
     res.status(200).json({role:"admin", assignees})
   }else{
@@ -151,6 +148,7 @@ async function getAllAssignees(req, res, next){
 }
 
 async function createTicket(req, res, next){
+
   const ticketDetails= (req.body);
   console.log(ticketDetails.newSubject_id);
 
@@ -171,6 +169,7 @@ const createSubject =
 await query(`INSERT INTO subject (SubjectTitle, SubjectDescription, DeadlineDates, CC, Closed, StudentID, AssigneeID)
              VALUES('${ticketDetails.subject.title}','${ticketDetails.subject.description}','${dueDatesJSON}','${ticketDetails.referedName.admin}',${0},${Number.parseInt(studentId)},${Number.parseInt(assigneId)})`);
 
+             console.log(createSubject)
   const newSubject_id = Number.parseInt(ticketDetails.newSubject_id);
   const deleteNewSubject = await query(`DELETE FROM new_subjects WHERE id=${newSubject_id} `);
               

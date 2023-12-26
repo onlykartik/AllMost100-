@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET_KEY;
 
 const authenticateJwt = (req, res, next) => {
+
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const token = authHeader;
@@ -13,12 +14,14 @@ const authenticateJwt = (req, res, next) => {
         next();
       });
     } else {
+
       res.sendStatus(401);
     }
   };
   
   
   const adminAuthenticateJwt = (req, res, next) => {
+
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const token = authHeader;
