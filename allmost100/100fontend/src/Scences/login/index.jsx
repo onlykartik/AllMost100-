@@ -10,7 +10,7 @@ const formStyle = {
 
 function Login() {
     const navigate = useNavigate();
-    const setUser = useSetRecoilState(logedInUser)
+    const setUser = useSetRecoilState(logedInUser);
 
   return (
     <Box>
@@ -39,8 +39,14 @@ function Login() {
   }).then(data =>{
            console.log("errror")
             if(data.role ==="Admin"){
-                console.log(data.token);
+                console.log(data);
                 localStorage.setItem('jwtToken', data.token);
+                localStorage.setItem('userInfo',JSON.stringify( {
+                  user : "VP Fancy Admin",
+                  access:"admin",
+                  email,
+                }));
+                console.log( JSON.parse ( localStorage.getItem('userInfo')));
                 setUser({
                   user : "VP Fancy Admin",
                   access:"admin",
@@ -52,6 +58,11 @@ function Login() {
             }else if(data.role ==="User(student/assigne)"){
                 console.log(data.token);
                 localStorage.setItem('jwtToken', data.token);
+                localStorage.setItem('userInfo', JSON.stringify({
+                  user : "T-REX User",
+                  access :"user",
+                  email,
+                }));
                 setUser({
                   user : "T-REX User",
                   access :"user",

@@ -14,6 +14,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { newStujectDashboard } from "../../recoil_state";
 
 const columns = [
+  {field : "id" , headerName : "Id", hide : true},
   { field: "firstName", headerName: "First name" , hide :true},
   { field: "lastName", headerName: "Last name", hide :true },
   {
@@ -84,9 +85,9 @@ function FormDashboard() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const rowsWithId = data.map((row, index) => ({ ...row, id: index + 1 }));
+//        const rowsWithId = data.map((row, index) => ({ ...row, id: index + 1 }));
 
-        setDashboard(rowsWithId);
+        setDashboard(data);
         console.log(data)
       })
       .catch((data) => {
@@ -156,7 +157,7 @@ function DraggableDialog({ row }) {
 
         // ReSet Newsubject Dashboard
         setDashboardState((oldDashboardState)=>{
-          return oldDashboardState.filter((newSubs=> newSubs.id != row.id? true:false));
+          return oldDashboardState.filter((newSubs=> newSubs.id !== row.id? true:false));
         })
      })
   }

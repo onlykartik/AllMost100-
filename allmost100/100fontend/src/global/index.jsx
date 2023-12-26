@@ -16,8 +16,9 @@ import { useLocation } from 'react-router-dom';
 import dinoImage from '../dinosaur.png'
 import { useRecoilValue } from "recoil";
 import { logedInUser } from "../recoil_state";
+
 import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected }) => {
 
 
   return (
@@ -38,8 +39,10 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 function MySidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
   const user = useRecoilValue(logedInUser);
+
+
+  const userInfo = JSON.parse( localStorage.getItem("userInfo"));
 
   const location = useLocation();
   const { pathname } = location;
@@ -47,6 +50,11 @@ function MySidebar() {
   const isSidebarHidden = hideSidebarRoutes.includes(pathname);
 
   if(isSidebarHidden){
+    return <Box></Box>
+  };
+  // if local store is null that means your has not login in 
+  if(!userInfo){
+    console.log('userInfro',userInfo)
     return <Box></Box>
   }
 
@@ -112,10 +120,10 @@ function MySidebar() {
                 fontWeight="bold"
                 sx={{ m: "10px 0 0 0" }}
               >
-                {user.email.split("@")[0].concat("@")}
+                {user.email ===""? userInfo.email.split("@")[0].concat("@") :  user.email.split("@")[0].concat("@") }
               </Typography>
               <Typography variant="h5" >
-                {user.user}
+                {user.user ==="" ? userInfo.user : user.user}
                 <VerifiedRoundedIcon  sx={{color:"blue"}}/>
               </Typography>
             </Box>
@@ -128,8 +136,7 @@ function MySidebar() {
             title="Ticket Dashboard"
             to="/ticket/dashboard"
             icon={<HomeOutlinedIcon sx={{ color:"#1976d2"}} />}
-            selected={selected}
-            setSelected={setSelected}
+            
           />
 
 
@@ -142,7 +149,7 @@ function MySidebar() {
           </Typography>
 
           {/* User can only see Add Assignee, New Subjects, Create Ticket Icons */}
-          {user.access==="admin" ?
+          {user.access==="admin" || userInfo.access ==="admin" ?
            <Box sx={{
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.50)',
             transition: 'box-shadow 0.3s ease-in-out',
@@ -152,34 +159,31 @@ function MySidebar() {
             title="Create Ticket"
             to="/admin/CreateTicket"
             icon={<AddBoxOutlinedIcon sx={{ color:"#1976d2"}} />}
-            selected={selected}
-            setSelected={setSelected}
+            
             />
           </Box>:""  }
-         {user.access !=="admin"?"":
+         {user.access ==="admin" ||  userInfo.access ==="admin" ?
          <Box>
-          <Item
-          title="Add Assignee"
-          to="/admin/addAssignee"
-          icon={<PeopleOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          />
-          <Item
-          title="New Subjects"
-          to="/admin/newsubjects"
-          icon={<SubjectOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          />
-        </Box>}
+         <Item
+         title="Add Assignee"
+         to="/admin/addAssignee"
+         icon={<PeopleOutlinedIcon />}
+         
+         />
+         <Item
+         title="New Subjects"
+         to="/admin/newsubjects"
+         icon={<SubjectOutlinedIcon />}
+         
+         />
+       </Box>
+         :""}
           
           <Item
             title="Finished Subjects"
             to="/finishedSubjects"
             icon={<CheckCircleOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+            
           />
           <Typography
             variant="h6"
@@ -192,32 +196,31 @@ function MySidebar() {
             title="Form"
             to="/form"
             icon={<PersonOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+            
           />
           <Item
             title="Calendar"
             to="/calendar"
             icon={<CalendarTodayOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+           
           />
           <Item
             title="FAQ Page"
             to="/faq"
             icon={<HelpOutlineOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+            
           />
           <Box>
             <Button variant="contained" size="large" startIcon={<LogoutIcon />}
-            onClick={()=>{localStorage.removeItem("jwtToken")}}
+            onClick={()=>{
+              localStorage.removeItem("jwtToken");
+              localStorage.removeItem("userInfo")
+            }}
             >  
             <Item
             title={"LOG OUT"}
             to="/"
-            selected={selected}
-            setSelected={setSelected}
+            
             /> 
             </Button>
           </Box>

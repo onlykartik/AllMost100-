@@ -12,8 +12,6 @@ async function addFormData(req, res, next) {
   const ref2 = formFields.reference.split(',')[1].concat("@gmail.com");
   formFields.reference = ref1 +',' + ref2;
 
-  console.log(ref1 +" "+ ref2);
-
 
   const addedFormData = await query(
     "INSERT INTO new_subjects (firstName, lastName, email, contact, title, description, dueDates1,university,referedName) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?)",

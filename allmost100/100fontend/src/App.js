@@ -20,7 +20,7 @@ import {
 
 function App() {
   return (
-    <Box className="app" sx={{backgroundColor:"#f7fafc", width:"100%", height:"100vh"}}>
+    <Box className="app" >
       <RecoilRoot>
       <MySidebar />
       <main className="content">

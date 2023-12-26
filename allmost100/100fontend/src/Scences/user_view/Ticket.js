@@ -68,6 +68,7 @@ function Ticket(){
             "ticketid" : id
         }
     }).then((res)=> res.json()).then((data)=>{
+        console.log(data);
         setTicket(data)
     }).catch(()=>{
         setTicket([]);
@@ -83,19 +84,18 @@ function Ticket(){
             "subjectid" : id
         }
     }).then((res)=> res.json()).then((data)=>{
-        console.log(data)
+        
         setPosts(data.comments)
     }).catch(()=>{
         setPosts([]);
     })
     },[])
 
+    let lStore =  JSON.parse( localStorage.getItem("userInfo"));
 
-
-
-    const isCurrentUserAdmin = (ticket?.subjectObject?.[0]?.admin)?.split(",").includes(email) ;
-    const isCurrentUserStudent = ticket?.subjectObject?.[0]?.student[0].Email  === email;
-    const isCurrentUserAssignee = ticket?.subjectObject?.[0]?.assignee[0].Email === email;
+    const isCurrentUserAdmin = (ticket?.subjectObject?.[0]?.admin)?.split(",").includes(email ===""?lStore.email:email ) ;
+    const isCurrentUserStudent = ticket?.subjectObject?.[0]?.student[0].Email  === (email ===""?lStore.email:email);
+    const isCurrentUserAssignee = ticket?.subjectObject?.[0]?.assignee[0].Email === (email ===""?lStore.email:email);
 
     const onPostSubmittionHandler = (e)=>{
 
@@ -118,7 +118,7 @@ function Ticket(){
             subjectId : id ,
             createdAt : new Date(),
         }
-        console.log(commentObject)
+        
 
         fetch('http://localhost:5000/user/addComment',{
             mode :'cors',
@@ -129,7 +129,6 @@ function Ticket(){
             },
             body:JSON.stringify(commentObject)
         }).then(res=>res.json()).then(data =>{
-            console.log(data)
         }).then(()=>{
             fetch(`http://localhost:5000/user/getComments?${id}`,{
                 mode :'cors',
@@ -139,7 +138,7 @@ function Ticket(){
                     "subjectid" : id
                 }
             }).then((res)=> res.json()).then((data)=>{
-                console.log(data)
+                
                 setPosts(data.comments)
             }).catch(()=>{
                 setPosts([]);
@@ -184,6 +183,7 @@ function Ticket(){
                             console.log(post.CommentText);
                             return (
                                 <List
+                                key={post.Id}
                                 sx={{
                                     width: '90%',
                                     bgcolor: 'background.paper',

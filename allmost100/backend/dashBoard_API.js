@@ -66,8 +66,9 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
     return ccList.find((cc) => cc === username);
   });
 
-  console.log(isUserStudent +" is user student*** "+ username);
   if (isUserStudent) {
+    console.log(isUserStudent +" is user ***student*** "+ username);
+
     const stuSubjects = await query("select * from subject where studentId=?", [isUserStudent.Id,]);
     const subjects =
     await Promise.all(
@@ -88,6 +89,8 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
     res.status(200).json({ role: "student", subjects });
 
   } else if (isUserAssignee) {
+    console.log(isUserAssignee +" is user ***assigne*** "+ username);
+
     const stuSubjects = await query("select * from subject where AssigneeId=?",[isUserAssignee.Id]);
 
     const subjects =
@@ -110,6 +113,7 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
     res.status(200).json({ role: "assignee", subjects });
 
   } else if (isUserCC) {
+    console.log(isUserAssignee +" is user ***CC*** "+ username);
     const ccOwnedSubjectList = CCs.filter((cc) =>cc.CC.split(",").some((c) => c === username));
 
     const subjects =
@@ -150,7 +154,6 @@ async function getAllAssignees(req, res, next){
 async function createTicket(req, res, next){
 
   const ticketDetails= (req.body);
-  console.log(ticketDetails.newSubject_id);
 
  const studentIsExist = await query(`select * from student where Email ='${ticketDetails.student.email}'`)
  if(studentIsExist.length <=0){
@@ -173,7 +176,7 @@ await query(`INSERT INTO subject (SubjectTitle, SubjectDescription, DeadlineDate
   const newSubject_id = Number.parseInt(ticketDetails.newSubject_id);
   const deleteNewSubject = await query(`DELETE FROM new_subjects WHERE id=${newSubject_id} `);
               
-  res.status(200).json({message:"working on it ß", createSubject})
+  res.status(200).json({message:"deleted from new_subjects and inserted in student and subject", createSubject})
  }else if(studentIsExist.length >0){
   console.log("User as Student with Email id "+ ticketDetails.student.email +" is **FOUND** ")
   const studentId = studentIsExist[0].Id;
@@ -190,7 +193,7 @@ await query(`INSERT INTO subject (SubjectTitle, SubjectDescription, DeadlineDate
 
  const newSubject_id = Number.parseInt(ticketDetails.newSubject_id);
  const deleteNewSubject = await query(`DELETE FROM new_subjects WHERE id=${newSubject_id} `)            
-res.status(200).json({message:"working on it ß", createSubject})
+res.status(200).json({message:"student already exist updates subject and deleted from new_subjects ", createSubject})
 }
 
 }
