@@ -17,6 +17,7 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil';
+import AddAssignee from "./Scences/admin_view/AddAssignee";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function App() {
           <Route path="/user" element={<UserLogin />}></Route>
           <Route path="/admin/newsubjects" element={<FormDashboard />}></Route>
           <Route path="/ticket/dashboard" element={<TicketDashboard/> }></Route>
-          <Route path="/admin/CreateTicket" element={<CreateTicket/> }></Route>
+          <Route path="/admin/CreateTicket" element={<CreateTicket/> }></Route>  
+          <Route path="/admin/addAssignee" element={<AddAssignee/> }></Route>
           <Route path="/ticket/dashboard/ticket/:id" element={<Ticket/> }></Route>
         </Routes>
       </main>

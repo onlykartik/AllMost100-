@@ -35,7 +35,7 @@ CREATE TABLE `new_subjects` (
   `university` varchar(255) DEFAULT NULL,
   `referedName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,6 @@ CREATE TABLE `new_subjects` (
 
 LOCK TABLES `new_subjects` WRITE;
 /*!40000 ALTER TABLE `new_subjects` DISABLE KEYS */;
-INSERT INTO `new_subjects` VALUES (3,'Samuel','Harris','samuel.harris@email.com','666-555-4444','Computer Science','Description for CS class','2023-11-13',0,'University C','abbak@gmail.com,mohan@gmail.com'),(5,'Bob','Johnson','bob.johnson@email.com','555-123-4567','Science','Description for Science class','2023-10-22',0,'Unknown University','abbak@gmail.com,mohan@gmail.com'),(7,'Charlie','Brown','charlie.brown@email.com','777-888-9999','Geography','Description for Geography class','2023-10-24',0,'Unknown University','abbak@gmail.com,ramisetty@gmail.com');
 /*!40000 ALTER TABLE `new_subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-26  8:38:33
+-- Dump completed on 2023-12-27  1:29:47

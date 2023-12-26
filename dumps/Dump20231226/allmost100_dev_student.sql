@@ -27,8 +27,9 @@ CREATE TABLE `student` (
   `Name` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `University` varchar(255) DEFAULT NULL,
+  `contact` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +38,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,'John','John@example.com','University of ABC'),(2,'Karen','Karen@example.com','University of XYZ'),(3,'Mark','Mark@example.com',NULL),(4,'Ali','Ali@example.com',NULL),(5,'Freeman','Freeman@example.com',NULL),(6,'abba ramya','abbaRamya@gmail.com','rowuniversity'),(7,'ravinder','ravinderreddy@gmail.com','saint louis'),(8,'karhtik reddy','karthik.rdyy@gmail.com','University A'),(9,'surya namaskar','surya@gmail.com','Unknown University'),(10,'komati  moham','komati@gmail.com','Unknown University'),(11,'Olivia Hall','olivia.hall@email.com','Unknown University'),(12,'George Lee','george.lee@email.com','Unknown University'),(13,'Sophia Wilson','sophia.wilson@email.com','University B'),(14,'Ella Davis','ella.davis@email.com','Unknown University'),(15,'saroj kumar','saroj@gamil.com','albyna'),(16,'Charlie Brown','charlie.brown@email.com','Unknown University'),(17,'Samuel Harris','samuel.harris@email.com','University C');
+INSERT INTO `student` VALUES (1,'John','John@example.com','University of ABC',NULL),(2,'Karen','Karen@example.com','University of XYZ',NULL),(3,'Mark','Mark@example.com',NULL,NULL),(4,'Ali','Ali@example.com',NULL,NULL),(5,'Freeman','Freeman@example.com',NULL,NULL),(6,'abba ramya','abbaRamya@gmail.com','rowuniversity',NULL),(7,'ravinder','ravinderreddy@gmail.com','saint louis',NULL),(8,'karhtik reddy','karthik.rdyy@gmail.com','University A',NULL),(9,'surya namaskar','surya@gmail.com','Unknown University',NULL),(10,'komati  moham','komati@gmail.com','Unknown University',NULL),(11,'Olivia Hall','olivia.hall@email.com','Unknown University',NULL),(12,'George Lee','george.lee@email.com','Unknown University',NULL),(13,'Sophia Wilson','sophia.wilson@email.com','University B',NULL),(14,'Ella Davis','ella.davis@email.com','Unknown University',NULL),(15,'saroj kumar','saroj@gamil.com','albyna',NULL),(16,'Charlie Brown','charlie.brown@email.com','Unknown University',NULL),(17,'Samuel Harris','samuel.harris@email.com','University C',NULL),(18,'Bob Johnson','bob.johnson@email.com','Unknown University',NULL),(19,'jyothi undela','jyothi@gmail.com','paris',NULL),(20,'paul milk','paul@gmail.com','saiint jesus ','987654321'),(21,'siri sir','sirish@gmail.com','pas univercity','92423324'),(22,'saalar cease fire','salaar@gmail.com','zoo','98313121');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-26  8:38:33
+-- Dump completed on 2023-12-27  1:29:47

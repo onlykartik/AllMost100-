@@ -113,7 +113,7 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
     res.status(200).json({ role: "assignee", subjects });
 
   } else if (isUserCC) {
-    console.log(isUserAssignee +" is user ***CC*** "+ username);
+    console.log(isUserCC +" is user ***CC*** "+ username);
     const ccOwnedSubjectList = CCs.filter((cc) =>cc.CC.split(",").some((c) => c === username));
 
     const subjects =
@@ -142,23 +142,67 @@ async function listSubjectsForReporterAssigneCCs(req, res, next) {
 
 
 async function getAllAssignees(req, res, next){
-
   const assignees = await query("select * from assignee");
   if(assignees){
     res.status(200).json({role:"admin", assignees})
   }else{
     res.status(500).json({message:"no assignees"})
   }
+};
+
+async function getAllStudents(req, res, next){
+  const students = await query("select * from student");
+  if(students){
+    res.status(200).json({role:"admin", students})
+  }else{
+    res.status(500).json({message:"no students"})
+  }
+};
+
+async function createAssignee(req, res,next){
+  const {
+    name,
+    email,
+    cc,
+    rating,
+    contact
+} =  req.body;
+
+const createNewAssignee =  
+await query(`INSERT INTO assignee ( Name, Email, CC, Rating, contact) values('${name}', '${email}', '${cc}', '${rating}', '${contact}' )`);
+
+const creatingCreds =
+ await query(`INSERT INTO usercredentials (USER,PASSWORD) values('${email }','${'pc'+(email).split('@')[0]}')`);
+ console.log('creating creds ', creatingCreds);
+
+  res.status(200).json({role:"admin", createNewAssignee})
+};
+
+
+async function getAssignees_StudentCreds(req, res, next){
+  const _assgineAndStuCred = await query("select * from usercredentials");
+  if(_assgineAndStuCred){
+    res.status(200).json({role:"admin", _assgineAndStuCred})
+  }else{
+    res.status(500).json({message:"no creds"})
+  }
+  
 }
 
 async function createTicket(req, res, next){
 
   const ticketDetails= (req.body);
+  console.log('ticketDetails',ticketDetails);
 
- const studentIsExist = await query(`select * from student where Email ='${ticketDetails.student.email}'`)
+ const studentIsExist = await query(`select * from student where Email ='${ticketDetails.student.email}'`);
+ 
  if(studentIsExist.length <=0){
-  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **NOT FOUND** ")
-  const createStudent =  await query(`INSERT INTO student (Name,Email,university) values('${ticketDetails.student.fullName}', '${ticketDetails.student.email}', '${ticketDetails.student.university}')`);
+  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **NOT FOUND** ");
+// since user is not found create user creds 
+const creatingCreds =
+ await query(`INSERT INTO usercredentials (USER,PASSWORD) values('${ticketDetails.student.email }','${'pc'+(ticketDetails.student.email).split('@')[0]}')`);
+ console.log('creating creds ', creatingCreds)
+  const createStudent =  await query(`INSERT INTO student (Name,Email,university,contact) values('${ticketDetails.student.fullName}', '${ticketDetails.student.email}', '${ticketDetails.student.university}', '${ticketDetails.student.contact}')`);
   const studentId = createStudent.insertId;
   const assigneId = ticketDetails.assignee.assigneId;
   const dueDates = {
@@ -172,13 +216,19 @@ const createSubject =
 await query(`INSERT INTO subject (SubjectTitle, SubjectDescription, DeadlineDates, CC, Closed, StudentID, AssigneeID)
              VALUES('${ticketDetails.subject.title}','${ticketDetails.subject.description}','${dueDatesJSON}','${ticketDetails.referedName.admin}',${0},${Number.parseInt(studentId)},${Number.parseInt(assigneId)})`);
 
-             console.log(createSubject)
+             console.log("createSubject" , createSubject)
   const newSubject_id = Number.parseInt(ticketDetails.newSubject_id);
   const deleteNewSubject = await query(`DELETE FROM new_subjects WHERE id=${newSubject_id} `);
               
-  res.status(200).json({message:"deleted from new_subjects and inserted in student and subject", createSubject})
+  res.status(200).json({message:"deleted from new_subjects and inserted in student and subject", createSubject});
+
  }else if(studentIsExist.length >0){
-  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **FOUND** ")
+  console.log("User as Student with Email id "+ ticketDetails.student.email +" is **FOUND** ");
+// If student email already exist just update with latest contact number
+
+  const updatePhoneNum = await query(`UPDATE Student set contact = '${ticketDetails.student.contact}'  WHERE Email = '${ticketDetails.student.email}' `);
+  console.log("updated phone num ", updatePhoneNum);
+
   const studentId = studentIsExist[0].Id;
   const assigneId = ticketDetails.assignee.assigneId;
   const dueDates = {
@@ -202,6 +252,7 @@ res.status(200).json({message:"student already exist updates subject and deleted
 async function getSingleTicket(req, res, next){
 
   const {authorization, ticketid}=req.headers ;  
+
   if(!ticketid){
     res.status(500).json({ role: "admin", message:"Not found for now send request after 2 days" });
   }
@@ -232,6 +283,9 @@ module.exports = {
   login,
   listSubjectsForReporterAssigneCCs,
   getAllAssignees,
+  createAssignee,
+  getAllStudents,
   createTicket,
-  getSingleTicket
+  getSingleTicket,
+  getAssignees_StudentCreds
 };

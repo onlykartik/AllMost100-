@@ -26,6 +26,7 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 
+
 app.post("/login", dashboard.login);
 app.get(
   "/dashboard",
@@ -37,7 +38,15 @@ app.get(
 app.post("/filledForm",  formApi.addFormData);
 app.get("/formDashboard", middlewares.adminAuthenticateJwt, formApi.getAllformData);
 app.get("/admin/assigns", middlewares.adminAuthenticateJwt, dashboard.getAllAssignees);
+app.get("/admin/students", middlewares.adminAuthenticateJwt, dashboard.getAllStudents);
+
+app.get("/admin/assigns&userCreds", middlewares.adminAuthenticateJwt, dashboard.getAssignees_StudentCreds);
+
 app.post("/admin/createTicket", middlewares.adminAuthenticateJwt, dashboard.createTicket);
+
+app.post("/admin/createAssignee", middlewares.adminAuthenticateJwt, dashboard.createAssignee);
+
+
 app.get("/admin/getTicket",middlewares.authenticateJwt, dashboard.getSingleTicket);
 
 app.post("/user/addComment",middlewares.authenticateJwt,comments.addComment)

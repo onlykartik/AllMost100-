@@ -12,9 +12,29 @@ const logedInUser = atom({
 const newStujectDashboard = atom({
   key:"newStujectDashboard",
   default:[]
+});
+
+
+const listOfAllAssignees = atom({
+  key : "listOfAllAssignees",
+  default :[]
+});
+
+const listOfAllStudents = atom({
+  key:"listOfAllStudents",
+  default :[]
 })
+
+const listOfAllStuAndAssCreds = atom({
+  key:"listOfAllStuAndAssCreds",
+  default :[]
+})
+
 
   export {
     logedInUser,
-    newStujectDashboard
+    newStujectDashboard,
+    listOfAllAssignees,
+    listOfAllStudents,
+    listOfAllStuAndAssCreds
   }

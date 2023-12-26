@@ -28,8 +28,9 @@ CREATE TABLE `assignee` (
   `Email` varchar(255) DEFAULT NULL,
   `CC` varchar(255) DEFAULT NULL,
   `Rating` decimal(3,2) DEFAULT NULL,
+  `contact` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +39,7 @@ CREATE TABLE `assignee` (
 
 LOCK TABLES `assignee` WRITE;
 /*!40000 ALTER TABLE `assignee` DISABLE KEYS */;
-INSERT INTO `assignee` VALUES (1,'Anusha','anu@example.com','cc1@example.com',4.50),(2,'Karthik','Karthik@example.com','cc2@example.com',3.80),(3,'Nandini','Nandini@example.com','cc3@example.com',4.00),(4,'aishwarya','aish@example.com','cc4@example.com',3.50),(5,'ravi','ravi@example.com','cc5@example.com',4.20);
+INSERT INTO `assignee` VALUES (1,'Anusha','anu@example.com','cc1@example.com',4.50,NULL),(2,'Karthik','Karthik@example.com','cc2@example.com',3.80,NULL),(3,'Nandini','Nandini@example.com','cc3@example.com',4.00,NULL),(4,'aishwarya','aish@example.com','cc4@example.com',3.50,NULL),(5,'ravi','ravi@example.com','cc5@example.com',4.20,NULL),(6,'devudu','devudu@example.com','saimesi@gmail.com',2.10,'9824234');
 /*!40000 ALTER TABLE `assignee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-26  8:38:33
+-- Dump completed on 2023-12-27  1:29:47
