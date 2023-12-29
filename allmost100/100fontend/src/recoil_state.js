@@ -20,6 +20,21 @@ const listOfAllAssignees = atom({
   default :[]
 });
 
+const filteredListOfAssignees = selector({
+  key: "filteredListOfAssignees",
+  get: ({ get }) => {
+    const assignees = get(listOfAllAssignees);
+    console.log("Inside filteredListOfAssignees")
+
+    if(assignees){
+
+     return assignees;
+    }else{
+      return [];
+    }
+  }
+});
+
 const listOfAllStudents = atom({
   key:"listOfAllStudents",
   default :[]
@@ -36,5 +51,6 @@ const listOfAllStuAndAssCreds = atom({
     newStujectDashboard,
     listOfAllAssignees,
     listOfAllStudents,
-    listOfAllStuAndAssCreds
+    listOfAllStuAndAssCreds,
+    filteredListOfAssignees
   }

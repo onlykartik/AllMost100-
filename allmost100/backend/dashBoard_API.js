@@ -28,7 +28,6 @@ async function login(req, res, next) {
     return user.USER === username && user.PASSWORD === passcode;
   });
 
-
   const isUserAdmin = userAdmin.find((user) => {
     return user.USER == username && user.PASSWORD == passcode;
   });
@@ -37,7 +36,6 @@ async function login(req, res, next) {
   if (isUserStu_Asg) {
     const token = jwt.sign({ username, passcode }, secret, { expiresIn: "2h" });
     res.status(200).json({ message: "Success", role: "User(student/assigne)", token });
-
   } else if (isUserAdmin) {    
     const token = jwt.sign({ username, passcode }, secret, { expiresIn: "2h" });
     res.status(200).json({ message: "Success", role: "Admin", token });
@@ -160,13 +158,8 @@ async function getAllStudents(req, res, next){
 };
 
 async function createAssignee(req, res,next){
-  const {
-    name,
-    email,
-    cc,
-    rating,
-    contact
-} =  req.body;
+
+const { name,email,cc,rating,contact} =  req.body;
 
 const createNewAssignee =  
 await query(`INSERT INTO assignee ( Name, Email, CC, Rating, contact) values('${name}', '${email}', '${cc}', '${rating}', '${contact}' )`);
@@ -186,7 +179,6 @@ async function getAssignees_StudentCreds(req, res, next){
   }else{
     res.status(500).json({message:"no creds"})
   }
-  
 }
 
 async function createTicket(req, res, next){

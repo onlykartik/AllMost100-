@@ -10,11 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
  function ConfirmDialog(props) {
   const [open, setOpen] = React.useState(false);
 
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
 
   const handleClose = () => {
     setOpen(false);
@@ -32,9 +30,7 @@ import DialogTitle from '@mui/material/DialogTitle';
           },
           body: JSON.stringify(formValues)  
     }).then(res => res.json()).then(data =>{
-        alert(data.toString())
-
-
+        alert( "SUCCESS");
     })
    
   };
@@ -52,11 +48,11 @@ import DialogTitle from '@mui/material/DialogTitle';
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Lorem ipsum dolor sit amet.
+        Please double-check your form. Ensure correct email and mobile number entries
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis, possimus?
+          Rest assured about the security of your data. We operate within a secure network. In the event that your request is declined, your data will be automatically deleted. Alternatively, feel free to contact our agent for manual deletion if needed.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

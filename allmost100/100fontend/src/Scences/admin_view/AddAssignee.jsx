@@ -10,13 +10,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { listOfAllAssignees, listOfAllStuAndAssCreds, listOfAllStudents } from "../../recoil_state";
-import { useRecoilState } from "recoil";
+import { filteredListOfAssignees, listOfAllAssignees, listOfAllStuAndAssCreds, listOfAllStudents } from "../../recoil_state";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 
 
 export function AssigneeTable() {
     const [assignees, setAssignees] =useRecoilState(listOfAllAssignees);
+    const AssigneeListfromSelector = useRecoilValue(filteredListOfAssignees);
+
+
     React.useEffect(() => {
         fetch("http://localhost:5000/admin/assigns", {
           mode :'cors',
@@ -50,7 +53,7 @@ export function AssigneeTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {assignees.map((row) => (
+          {AssigneeListfromSelector.map((row) => (
             <TableRow
               key={row.Id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
