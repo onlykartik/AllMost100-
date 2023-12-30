@@ -19,8 +19,7 @@ const initialValues = {
   reference: new URLSearchParams(window.location.search).get("reference"),
 };
 
-const phoneRegExp =
-  /^(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\))?\s?\d{1,4}[-\s]?\d{1,4}[-\s]?\d{1,4}$/;
+const phoneRegExp =/^(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\))?\s?\d{1,4}[-\s]?\d{1,4}[-\s]?\d{1,4}$/;
 
 const userSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -32,7 +31,7 @@ const userSchema = yup.object().shape({
     .required("required"),
   title: yup.string().required("required"),
   description: yup.string().required("required"),
-  dueDates1: yup.string(),
+  dueDates1: yup.date().nullable().required("required").typeError("Invalid date format"),
   university: yup.string().required("required"),
   reference: yup.string().required("required"),
 });
@@ -58,155 +57,98 @@ function Form() {
   const handleFormSubmit = (values) => {
     values["dueDates1"] = dueDate;
 
-    console.log(values);
-    setFormData(values);
+    console.log( "values", values);
+  
+      setFormData(values);
+    
   };
 
   return (
-    <Box m="20px">
+    <Box m="40px">
       <Header name={"Request Subject Form"} />
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={userSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => {
+      <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+
+        {({values,errors,touched,handleBlur,handleChange,handleSubmit}) => {
+
           return (
             <form onSubmit={handleSubmit}>
-              <Box
-                display={"grid"}
-                gap="30px"
-                gridTemplateColumns={"repeat(4, minmax(0,1fr))"}
-                
-              >
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="First Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.firstName}
-                  name="firstName"
+              <Box display={"grid"} gap="20px" gridTemplateColumns={{ xs: "1fr", md: "repeat(2, minmax(0, 1fr))" }}>
+
+                <TextField fullWidth variant="filled" type="text"
+                  label="First Name" onBlur={handleBlur} onChange={handleChange}
+                  value={values.firstName} name="firstName"
                   error={!!touched.firstName && !!errors.firstName}
                   helperText={touched.firstName && errors.firstName}
                 />
                 <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Last Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.lastName}
-                  name="lastName"
+                  fullWidth variant="filled" type="text" label="Last Name"
+                  onBlur={handleBlur} onChange={handleChange}
+                  value={values.lastName} name="lastName"
                   error={!!touched.lastName && !!errors.lastName}
                   helperText={touched.lastName && errors.lastName}
                 />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.email.toLocaleLowerCase()}
-                  name="email"
-                  error={!!touched.email && !!errors.email}
-                  helperText={touched.email && errors.email}
+                <TextField fullWidth variant="filled" type="text"
+                  label="Email" onBlur={handleBlur}
+                  onChange={handleChange} value={values.email.toLocaleLowerCase()}
+                  name="email" error={!!touched.email && !!errors.email} helperText={touched.email && errors.email}
                 />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Contact Number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.contact}
-                  name="contact"
-                  error={!!touched.contact && !!errors.contact}
-                  helperText={touched.contact && errors.contact}
+                <TextField fullWidth variant="filled" type="text" label="Contact Number" onBlur={handleBlur}
+                  onChange={handleChange} value={values.contact} name="contact"
+                  error={!!touched.contact && !!errors.contact} helperText={touched.contact && errors.contact}
                 />
 
                 <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Title"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.title}
-                  name="title"
-                  error={!!touched.title && !!errors.title}
-                  helperText={touched.title && errors.title}
+                  fullWidth variant="filled"
+                  type="text" label="Title" onBlur={handleBlur}
+                  onChange={handleChange}value={values.title} name="title"
+                  error={!!touched.title && !!errors.title} helperText={touched.title && errors.title}
                 />
                 <TextField
-                  fullWidth
-                  multiline
-                  variant="outlined"
-                  type="text"
-                  label="Description"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.description}
-                  name="description"
+                  fullWidth multiline variant="outlined" type="text"
+                  label="Description" onBlur={handleBlur} onChange={handleChange}
+                  value={values.description} name="description"
                   error={!!touched.description && !!errors.description}
                   helperText={touched.description && errors.description}
                   rows={4}
                 />
 
                 <TextField
-                  fullWidth
-                  multiline
-                  variant="filled"
-                  type="text"
-                  label="University"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.university}
-                  name="university"
-                  error={!!touched.university && !!errors.university}
-                  helperText={touched.university && errors.university}
+                  fullWidth multiline variant="filled" type="text"
+                  label="University" onBlur={handleBlur} onChange={handleChange} value={values.university} name="university"
+                  error={!!touched.university && !!errors.university} helperText={touched.university && errors.university}
                 />
 
-                <input
-                  type="date"
-                  label="DueDates1"
-                  name="dueDates1"
+                {/* <input
+                  type="date" label="DueDates1" name="dueDates1"
                   onChange={(e) => {
                     setDueDate(e.target.value);
                     console.log(e.target.value);
                   }}
+                /> */}
+                
+                <TextField
+                  type="date"
+                  label="DueDates1"
+                  onBlur={handleBlur}
+                  onChange={(e) => {
+                    setDueDate(e.target.value);
+                    handleChange(e);
+                  }}
+                  value={values.dueDates1}
+                  name="dueDates1"
+                  error={!!touched.dueDates1 && !!errors.dueDates1}
+                  helperText={touched.dueDates1 && errors.dueDates1}
                 />
 
+
                 <TextField
-                  id="outlined-read-only-input"
-                  label="Reference"
-                  name="reference"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.reference}
-                  InputProps={{
+                  id="outlined-read-only-input" label="Reference" name="reference"
+                  onBlur={handleBlur} onChange={handleChange} value={values.reference} InputProps={{
                     readOnly: true,
                   }}
                 />
               </Box>
-              <Box
-                display={"flex"}
-                justifyContent={"start"}
-                m={"20px 0px 20px 0"}
-                
-              >
-                {/*   <Button type="submit" color="secondary" size="large">REQUEST MENTOR</Button>  */}
-                <ConfirmDialog data={formData} />
-              </Box>
+              <Box display={"flex"} justifyContent={"start"} m={"20px 0px 20px 0"} ><ConfirmDialog data={formData} /> </Box>
             </form>
           );
         }}

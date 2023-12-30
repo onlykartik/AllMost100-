@@ -11,7 +11,12 @@ import DialogTitle from '@mui/material/DialogTitle';
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    console.log("hi", props.data);
+    if(props.data.email){
+      setOpen(true); 
+    }else{
+      alert("Kindly fill the form completely");
+    }
   };
 
   const handleClose = () => {
@@ -19,7 +24,6 @@ import DialogTitle from '@mui/material/DialogTitle';
     // form data is here
     const formValues = props.data;
     console.log(formValues);
-
 
     fetch("http://localhost:5000/filledForm",
     {
@@ -32,9 +36,7 @@ import DialogTitle from '@mui/material/DialogTitle';
     }).then(res => res.json()).then(data =>{
         alert( "SUCCESS");
     })
-   
   };
-
 
   return (
     <div>
@@ -56,7 +58,7 @@ import DialogTitle from '@mui/material/DialogTitle';
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={()=>{     setOpen(false); console.log(props.formValues) }}>Disagree</Button>
           <Button type='submit' onClick={handleClose} autoFocus>
             Agree
           </Button>
