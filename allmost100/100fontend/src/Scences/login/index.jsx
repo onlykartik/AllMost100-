@@ -1,4 +1,5 @@
-import { Box, Button, Input, Stack } from "@mui/material";
+
+import { Box, Button, Input, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { logedInUser } from "../../recoil_state";
@@ -6,7 +7,12 @@ import { logedInUser } from "../../recoil_state";
 
 const formStyle = {
   alignItems: "center",
+  boxShadow: "0 41px 8px rgba(0, 0, 0, 0.2)", // Adjust the color and opacity as needed
+  borderRadius: "8px", // Optional: To round the corners
+  padding : "80px",
+  background: "#ffffff"
 };
+const labelStyle = {color: "#f9561f",fontSize: "24px",fontWeight: "bold",marginBottom: "20px"};
 
 function Login() {
     const navigate = useNavigate();
@@ -33,6 +39,7 @@ function Login() {
             }),
           }) .then((res) => {
     if (!res.ok) {
+      alert("Incorrect");
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     return res.json();
@@ -51,7 +58,8 @@ function Login() {
                   user : "VP Fancy Admin",
                   access:"admin",
                   email,
-                })
+                });
+                alert("Success")
                 navigate("/admin/newsubjects")
 
 
@@ -67,8 +75,7 @@ function Login() {
                   user : "T-REX User",
                   access :"user",
                   email,
-                })
-                
+                });
                 navigate("/ticket/dashboard")
             }
           }).catch(e=>{
@@ -79,8 +86,9 @@ function Login() {
           console.log(inputs[0].value +" "+ inputs[1].value);
         }}
       >
-       
-        <Stack spacing={3} sx={formStyle}>
+        
+        <Stack spacing={3} sx={formStyle }>
+        <Typography textAlign={"center"} style={labelStyle}> login!</Typography>
           <Input placeholder="User email!" required />
           <Input placeholder="Password!" required />
           <Button variant="contained" type="submit" size="medium">

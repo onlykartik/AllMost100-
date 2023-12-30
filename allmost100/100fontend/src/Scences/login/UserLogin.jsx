@@ -1,4 +1,4 @@
-import login from "/Users/karterreddy/Production Apps/AllMost100/allmost100/100fontend/src/Login.png";
+import login from  "/Users/karterreddy/Production Apps/AllMost100/allmost100/100fontend/src/Login.png";
 import Login from "./index";
 const { Box, Typography } = require("@mui/material");
 
@@ -21,12 +21,12 @@ const { Box, Typography } = require("@mui/material");
     fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "20px",
+    paddingLeft : "50px"
   };
 
 function UserLogin(){
     return(
         <Box style={containerStyle}>
-            <Typography style={labelStyle}>User login!</Typography>
             <Login/>
         </Box>
     )

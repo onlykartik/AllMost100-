@@ -26,7 +26,6 @@ function AdminLogin() {
 
   return (
     <Box style={containerStyle}>
-      <Typography style={labelStyle}>Admin login!</Typography>
       <Login />
     </Box>
   );
