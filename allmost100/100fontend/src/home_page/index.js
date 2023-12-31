@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Stack, Box, Typography } from "@mui/material";
-import homeBGV from "/Users/karterreddy/Production Apps/AllMost100/allmost100/100fontend/src/homeImage.png";
+import homeBGV from '../homeImage.png'
 
 function Home() {
   const navigate = useNavigate();

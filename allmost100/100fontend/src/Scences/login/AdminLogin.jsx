@@ -1,12 +1,12 @@
 import Login from ".";
 import { Box, Typography } from "@mui/material";
-import login from "/Users/karterreddy/Production Apps/AllMost100/allmost100/100fontend/src/Login.png";
+import loginImg from '../../Login.png'
 
 function AdminLogin() {
 
   const containerStyle = {
     padding: "20px",
-    backgroundImage: `url(${login})`, // Replace with the path to your image
+    backgroundImage: `url(${loginImg})`, // Replace with the path to your image
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
